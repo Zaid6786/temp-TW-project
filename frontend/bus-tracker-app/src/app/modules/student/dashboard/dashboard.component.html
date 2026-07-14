@@ -1,0 +1,23 @@
+<div class="dashboard-container">
+  <h2>Hello {{ studentName }} 👋</h2>
+  
+  <div class="route-card">
+    <h3>Today's Route</h3>
+    <p><strong>Bus No :</strong> {{ currentRoute }}</p>
+    <p><strong>Status :</strong> {{ status }}</p>
+    <p><strong>ETA :</strong> {{ eta }}</p>
+    <p><strong>Crowd Level :</strong> <span class="badge yellow">{{ crowdLevel }}</span></p>
+    <p><strong>Seats Available :</strong> {{ seatsAvailable }}</p>
+  </div>
+
+  <div class="map-container">
+    <h3>Live Bus Map</h3>
+    <div id="map" class="map-placeholder">
+      <p>📍 You</p>
+      <p>──────────────</p>
+      <p>🚌 Bus</p>
+      <p>──────────────</p>
+      <p>🏫 College</p>
+    </div>
+  </div>
+</div>

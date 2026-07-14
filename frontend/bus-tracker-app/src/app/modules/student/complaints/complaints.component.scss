@@ -1,0 +1,98 @@
+.complaints-container {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .btn {
+    padding: 8px 16px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    
+    &-primary { background-color: #007bff; color: white; }
+    &-success { background-color: #28a745; color: white; margin-top: 10px; }
+    &:disabled { opacity: 0.6; cursor: not-allowed; }
+  }
+
+  .complaint-form-card {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+
+    .form-group {
+      margin-bottom: 15px;
+
+      label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: 500;
+      }
+
+      .form-control, .form-control-file {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+    }
+  }
+
+  .complaint-card {
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    overflow: hidden;
+
+    .card-header {
+      background: #f8f9fa;
+      padding: 10px 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #e9ecef;
+
+      h4 { margin: 0; }
+
+      .badge {
+        padding: 4px 8px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: bold;
+        color: white;
+
+        &.status-pending { background-color: #ffc107; color: #333; }
+        &.status-resolved { background-color: #28a745; }
+      }
+    }
+
+    .card-body {
+      padding: 15px;
+
+      .image-preview img {
+        max-width: 100%;
+        max-height: 200px;
+        object-fit: cover;
+        border-radius: 4px;
+        margin-top: 10px;
+      }
+
+      .meta {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 15px;
+        color: #6c757d;
+      }
+    }
+  }
+}

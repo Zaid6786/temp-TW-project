@@ -1,0 +1,60 @@
+<div class="complaints-container">
+  <div class="header">
+    <h2>My Complaints</h2>
+    <button class="btn btn-primary" (click)="showForm = !showForm">
+      {{ showForm ? 'Cancel' : 'New Complaint' }}
+    </button>
+  </div>
+
+  <div class="complaint-form-card" *ngIf="showForm">
+    <h3>Submit a New Issue</h3>
+    <form [formGroup]="complaintForm" (ngSubmit)="onSubmit()">
+      
+      <div class="form-group">
+        <label>Title</label>
+        <input type="text" formControlName="title" class="form-control" placeholder="Brief issue title">
+      </div>
+
+      <div class="form-group">
+        <label>Description</label>
+        <textarea formControlName="description" class="form-control" rows="4" placeholder="Describe the issue in detail"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Attach Image</label>
+        <input type="file" (change)="onFileSelected($event)" accept="image/*" class="form-control-file">
+        <small class="text-muted" *ngIf="selectedFile">Selected: {{selectedFile.name}}</small>
+      </div>
+
+      <button type="submit" class="btn btn-success" [disabled]="complaintForm.invalid || isSubmitting">
+        {{ isSubmitting ? 'Submitting...' : 'Submit Complaint' }}
+      </button>
+    </form>
+  </div>
+
+  <div class="complaints-list">
+    <div class="complaint-card" *ngFor="let c of complaints">
+      <div class="card-header">
+        <h4>{{ c.title }}</h4>
+        <span class="badge" [ngClass]="{
+          'status-pending': c.status === 'PENDING',
+          'status-resolved': c.status === 'RESOLVED'
+        }">{{ c.status }}</span>
+      </div>
+      <div class="card-body">
+        <p>{{ c.description }}</p>
+        <div class="image-preview" *ngIf="c.imageUrl">
+          <img [src]="c.imageUrl" alt="Complaint Attachment">
+        </div>
+        <div class="meta">
+          <small>Submitted: {{ c.createdAt | date:'medium' }}</small>
+          <small *ngIf="c.resolvedAt">Resolved: {{ c.resolvedAt | date:'medium' }}</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="no-data" *ngIf="complaints.length === 0">
+      <p>You have no complaints submitted.</p>
+    </div>
+  </div>
+</div>

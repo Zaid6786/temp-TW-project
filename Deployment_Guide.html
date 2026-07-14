@@ -1,0 +1,196 @@
+<h1>CI/CD Deployment Guide: AWS EC2, Jenkins, SonarQube, Docker, and Tomcat</h1>
+<p>Once you have perfected the Bus Tracker project locally, follow this comprehensive guide to set up a robust, automated deployment pipeline. This guide assumes you want to package your Spring Boot backend as a traditional <code>.war</code> file and deploy it to a dedicated <strong>Tomcat</strong> Docker container.</p>
+<hr>
+<h2>1. Project Code Preparation</h2>
+<p>By default, Spring Boot creates an executable <code>.jar</code> with an embedded Tomcat. Since you want to use a standalone Docker Tomcat container, you need to prepare the backend project to build a <code>.war</code> file.</p>
+<h3>Update <code>pom.xml</code></h3>
+<p>Add the packaging type and mark the embedded Tomcat dependency as <code>provided</code>:</p>
+<pre><code class="language-xml">&lt;packaging&gt;war&lt;/packaging&gt;
+
+&lt;dependencies&gt;
+    &lt;!-- Add this to prevent embedded Tomcat from conflicting with the standalone Tomcat --&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-starter-tomcat&lt;/artifactId&gt;
+        &lt;scope&gt;provided&lt;/scope&gt;
+    &lt;/dependency&gt;
+&lt;/dependencies&gt;
+</code></pre>
+<h3>Update the Main Application Class</h3>
+<p>Ensure your <code>BusTrackerApplication.java</code> extends <code>SpringBootServletInitializer</code>:</p>
+<pre><code class="language-java">package com.college.bus;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+
+@SpringBootApplication
+public class BusTrackerApplication extends SpringBootServletInitializer {
+
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+        return application.sources(BusTrackerApplication.class);
+    }
+
+    public static void main(String[] args) {
+        SpringApplication.run(BusTrackerApplication.class, args);
+    }
+}
+</code></pre>
+<hr>
+<h2>2. Infrastructure Setup (AWS EC2)</h2>
+<ol>
+<li><strong>Launch an EC2 Instance:</strong><ul>
+<li>Use an <strong>Ubuntu 22.04 LTS</strong> (or Amazon Linux 2023) instance.</li>
+<li>Recommended Size: <strong>t3.medium</strong> or larger (Jenkins + SonarQube + Build processes consume significant memory).</li>
+</ul>
+</li>
+<li><strong>Configure Security Group:</strong><ul>
+<li><strong>SSH (22)</strong>: For your access.</li>
+<li><strong>HTTP (80) / HTTPS (443)</strong>: For the frontend application.</li>
+<li><strong>Jenkins (8080)</strong>: For the Jenkins UI.</li>
+<li><strong>SonarQube (9000)</strong>: For the SonarQube UI.</li>
+<li><strong>Tomcat Application (8081)</strong>: For the Backend API.</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2>3. Install Prerequisites on EC2</h2>
+<p>SSH into your EC2 instance and run the following commands:</p>
+<h3>Install Java and Maven</h3>
+<pre><code class="language-bash">sudo apt update
+sudo apt install openjdk-17-jdk maven -y
+</code></pre>
+<h3>Install Docker</h3>
+<pre><code class="language-bash">sudo apt install docker.io -y
+sudo usermod -aG docker ubuntu
+sudo systemctl enable docker
+sudo systemctl start docker
+# Note: You may need to log out and log back in for the docker group to take effect.
+</code></pre>
+<h3>Install &amp; Run SonarQube (via Docker)</h3>
+<pre><code class="language-bash">docker run -d --name sonarqube -p 9000:9000 sonarqube:lts-community
+</code></pre>
+<p><em>Access SonarQube at <code>http://&lt;EC2-IP&gt;:9000</code>. Default login is <code>admin</code> / <code>admin</code>.</em></p>
+<h3>Install Jenkins</h3>
+<pre><code class="language-bash">curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key | sudo tee \
+  /usr/share/keyrings/jenkins-keyring.asc &gt; /dev/null
+echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] \
+  https://pkg.jenkins.io/debian-stable binary/ | sudo tee \
+  /etc/apt/sources.list.d/jenkins.list &gt; /dev/null
+sudo apt-get update
+sudo apt-get install jenkins -y
+sudo usermod -aG docker jenkins # Give Jenkins access to run Docker commands
+sudo systemctl restart jenkins
+</code></pre>
+<p><em>Access Jenkins at <code>http://&lt;EC2-IP&gt;:8080</code>. Retrieve the initial admin password using <code>sudo cat /var/lib/jenkins/secrets/initialAdminPassword</code>.</em></p>
+<hr>
+<h2>4. Containerizing the Application</h2>
+<p>Create a <code>Dockerfile</code> in the root of your backend project directory (<code>backend/bus-tracker-backend/Dockerfile</code>):</p>
+<pre><code class="language-dockerfile"># Use the official Tomcat image with JDK 17
+FROM tomcat:10.1-jdk17
+
+# Remove default Tomcat apps to keep it clean (optional)
+RUN rm -rf /usr/local/tomcat/webapps/*
+
+# Copy the generated WAR file into the Tomcat webapps directory
+# Tomcat will automatically extract and run the WAR file
+COPY target/bus-tracker-backend-1.0.0.war /usr/local/tomcat/webapps/api.war
+
+# Expose the default Tomcat port
+EXPOSE 8080
+
+# Start Tomcat
+CMD [&quot;catalina.sh&quot;, &quot;run&quot;]
+</code></pre>
+<blockquote>
+<p><strong>NOTE:</strong> Since we copied the file as <code>api.war</code>, your backend API will be accessible at <code>http://&lt;EC2-IP&gt;:8081/api</code>. You will need to update the Angular frontend&#39;s <code>environment.prod.ts</code> to point to this new API URL.</p>
+</blockquote>
+<hr>
+<h2>5. Setting up the Jenkins Pipeline</h2>
+<ol>
+<li>In Jenkins, install the following plugins: <strong>Docker Pipeline</strong>, <strong>SonarQube Scanner</strong>.</li>
+<li>Configure SonarQube in Jenkins:<ul>
+<li>Go to <strong>Manage Jenkins</strong> -&gt; <strong>System</strong> -&gt; Add SonarQube Server details (URL: <code>http://&lt;EC2-IP&gt;:9000</code>).</li>
+<li>Add a SonarQube token in Jenkins Credentials.</li>
+</ul>
+</li>
+<li>Create a <strong>New Item</strong> -&gt; <strong>Pipeline</strong> and name it <code>BusTracker-Deployment</code>.</li>
+<li>Use the following <code>Jenkinsfile</code> script:</li>
+</ol>
+<pre><code class="language-groovy">pipeline {
+    agent any
+
+    environment {
+        DOCKER_IMAGE = &#39;bus-tracker-backend:latest&#39;
+        SONARQUBE_SERVER = &#39;SonarQube&#39; // Name configured in Jenkins system
+    }
+
+    stages {
+        stage(&#39;Checkout&#39;) {
+            steps {
+                // Checkout code from your Git repository
+                git branch: &#39;main&#39;, url: &#39;https://github.com/your-repo/bus-tracker.git&#39;
+            }
+        }
+
+        stage(&#39;Build &amp; Unit Test&#39;) {
+            steps {
+                dir(&#39;backend/bus-tracker-backend&#39;) {
+                    sh &#39;mvn clean package&#39;
+                }
+            }
+        }
+
+        stage(&#39;SonarQube Code Analysis&#39;) {
+            steps {
+                dir(&#39;backend/bus-tracker-backend&#39;) {
+                    withSonarQubeEnv(SONARQUBE_SERVER) {
+                        sh &#39;mvn sonar:sonar -Dsonar.projectKey=bus-tracker -Dsonar.projectName=&quot;Bus Tracker&quot;&#39;
+                    }
+                }
+            }
+        }
+
+        stage(&#39;Quality Gate&#39;) {
+            steps {
+                timeout(time: 1, unit: &#39;HOURS&#39;) {
+                    // Wait for SonarQube analysis to complete and pass
+                    waitForQualityGate abortPipeline: true
+                }
+            }
+        }
+
+        stage(&#39;Docker Build&#39;) {
+            steps {
+                dir(&#39;backend/bus-tracker-backend&#39;) {
+                    sh &quot;docker build -t ${DOCKER_IMAGE} .&quot;
+                }
+            }
+        }
+
+        stage(&#39;Deploy to Docker Tomcat&#39;) {
+            steps {
+                // Stop and remove the old container if it exists
+                sh &quot;docker stop bus-tracker-api || true&quot;
+                sh &quot;docker rm bus-tracker-api || true&quot;
+                
+                // Run the new container
+                // Mapping host port 8081 to container port 8080 to avoid conflicts with Jenkins
+                sh &quot;docker run -d --name bus-tracker-api -p 8081:8080 ${DOCKER_IMAGE}&quot;
+            }
+        }
+    }
+}
+</code></pre>
+<h2>6. How the Pipeline Works</h2>
+<ol>
+<li><strong>Checkout:</strong> Jenkins pulls the latest code from your Git repository.</li>
+<li><strong>Build &amp; Unit Test:</strong> Jenkins runs <code>mvn clean package</code>. This compiles your Java code, runs any unit tests, and packages the application into a <code>.war</code> file.</li>
+<li><strong>SonarQube Analysis:</strong> Maven runs the Sonar scanner, pushing the code quality metrics (bugs, vulnerabilities, code smells) to your SonarQube dashboard.</li>
+<li><strong>Quality Gate:</strong> Jenkins waits for SonarQube&#39;s assessment. If the code quality fails the defined threshold, the pipeline halts immediately, preventing bad code from being deployed.</li>
+<li><strong>Docker Build:</strong> Jenkins uses the <code>Dockerfile</code> to create a Docker image that bundles the official Tomcat server with your new <code>.war</code> file.</li>
+<li><strong>Deploy:</strong> Jenkins spins up the new Docker container on port <code>8081</code>.</li>
+</ol>
+<p><em>(For the Angular Frontend, you would add similar stages utilizing Node.js, <code>npm run build</code>, and deploying the static files via an Nginx Docker container or directly to AWS S3 / CloudFront).</em></p>

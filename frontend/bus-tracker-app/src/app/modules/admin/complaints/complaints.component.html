@@ -1,0 +1,53 @@
+<div class="admin-complaints-container">
+  <div class="header">
+    <h2>Manage Complaints</h2>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Student ID</th>
+          <th>Title</th>
+          <th>Description</th>
+          <th>Attachment</th>
+          <th>Status</th>
+          <th>Date Submitted</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let c of complaints">
+          <td>{{ c.complaintId }}</td>
+          <td>{{ c.studentId }}</td>
+          <td><strong>{{ c.title }}</strong></td>
+          <td><div class="desc-cell" [title]="c.description">{{ c.description }}</div></td>
+          <td>
+            <a *ngIf="c.imageUrl" [href]="c.imageUrl" target="_blank" class="btn btn-sm btn-outline">View Image</a>
+            <span *ngIf="!c.imageUrl" class="text-muted">None</span>
+          </td>
+          <td>
+            <span class="badge" [ngClass]="{
+              'status-pending': c.status === 'PENDING',
+              'status-resolved': c.status === 'RESOLVED'
+            }">{{ c.status }}</span>
+          </td>
+          <td>{{ c.createdAt | date:'short' }}</td>
+          <td>
+            <button 
+              *ngIf="c.status !== 'RESOLVED'" 
+              class="btn btn-sm btn-success"
+              (click)="resolveComplaint(c.complaintId)">
+              Mark Resolved
+            </button>
+            <span *ngIf="c.status === 'RESOLVED'" class="text-success"><small>Resolved</small></span>
+          </td>
+        </tr>
+        <tr *ngIf="complaints.length === 0">
+          <td colspan="8" class="text-center">No complaints found.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

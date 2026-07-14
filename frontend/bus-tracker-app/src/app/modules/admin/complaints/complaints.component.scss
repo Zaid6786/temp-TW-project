@@ -1,0 +1,63 @@
+.admin-complaints-container {
+  padding: 20px;
+
+  .header {
+    margin-bottom: 20px;
+  }
+
+  .table-responsive {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    overflow-x: auto;
+  }
+
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #e9ecef;
+    }
+
+    th {
+      background-color: #f8f9fa;
+      font-weight: 600;
+    }
+
+    .desc-cell {
+      max-width: 200px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .badge {
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: bold;
+      color: white;
+
+      &.status-pending { background-color: #ffc107; color: #333; }
+      &.status-resolved { background-color: #28a745; }
+    }
+  }
+
+  .btn {
+    padding: 6px 12px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    font-size: 12px;
+    
+    &-success { background-color: #28a745; color: white; }
+    &-outline { background-color: transparent; border: 1px solid #007bff; color: #007bff; text-decoration: none; display: inline-block; }
+  }
+
+  .text-muted { color: #6c757d; }
+  .text-success { color: #28a745; }
+  .text-center { text-align: center; }
+}
