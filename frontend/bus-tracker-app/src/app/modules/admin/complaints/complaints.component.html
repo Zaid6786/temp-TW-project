@@ -1,53 +1,49 @@
-<div class="admin-complaints-container">
-  <div class="header">
-    <h2>Manage Complaints</h2>
+<div class="page-header" style="margin-bottom: 25px;">
+  <h1 style="color: var(--color-primary); font-size: 1.8rem; margin-bottom: 5px;">Student Complaints</h1>
+  <p style="color: var(--text-muted);">Review and resolve reported issues.</p>
+</div>
+
+<div class="glass-panel" style="padding: 25px;">
+  <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+    <select class="input-field" style="width: 200px;" (change)="onFilterChange($event)">
+      <option value="All Complaints">All Complaints</option>
+      <option value="Pending">Pending</option>
+      <option value="Resolved">Resolved</option>
+    </select>
   </div>
 
-  <div class="table-responsive">
-    <table class="table">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Student ID</th>
-          <th>Title</th>
-          <th>Description</th>
-          <th>Attachment</th>
-          <th>Status</th>
-          <th>Date Submitted</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let c of complaints">
-          <td>{{ c.complaintId }}</td>
-          <td>{{ c.studentId }}</td>
-          <td><strong>{{ c.title }}</strong></td>
-          <td><div class="desc-cell" [title]="c.description">{{ c.description }}</div></td>
-          <td>
-            <a *ngIf="c.imageUrl" [href]="c.imageUrl" target="_blank" class="btn btn-sm btn-outline">View Image</a>
-            <span *ngIf="!c.imageUrl" class="text-muted">None</span>
-          </td>
-          <td>
-            <span class="badge" [ngClass]="{
-              'status-pending': c.status === 'PENDING',
-              'status-resolved': c.status === 'RESOLVED'
-            }">{{ c.status }}</span>
-          </td>
-          <td>{{ c.createdAt | date:'short' }}</td>
-          <td>
-            <button 
-              *ngIf="c.status !== 'RESOLVED'" 
-              class="btn btn-sm btn-success"
-              (click)="resolveComplaint(c.complaintId)">
-              Mark Resolved
-            </button>
-            <span *ngIf="c.status === 'RESOLVED'" class="text-success"><small>Resolved</small></span>
-          </td>
-        </tr>
-        <tr *ngIf="complaints.length === 0">
-          <td colspan="8" class="text-center">No complaints found.</td>
-        </tr>
-      </tbody>
-    </table>
+  <div style="display: flex; flex-direction: column; gap: 15px;">
+    
+    <div *ngIf="filteredComplaints.length === 0" style="padding: 20px; text-align: center; color: var(--text-muted);">
+      No complaints found for the selected filter.
+    </div>
+
+    <!-- Complaint Item -->
+    <div *ngFor="let complaint of filteredComplaints" style="border: 1px solid var(--border-color); padding: 20px; border-radius: var(--radius-md); display: flex; justify-content: space-between; align-items: flex-start;">
+      <div>
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 5px;">
+          <h3 style="color: var(--text-main); font-size: 1.1rem; margin: 0;">{{ complaint.title }}</h3>
+          <span 
+            [ngStyle]="{
+              'background': complaint.status === 'PENDING' ? 'rgba(245, 158, 11, 0.1)' : 'rgba(16, 185, 129, 0.1)', 
+              'color': complaint.status === 'PENDING' ? 'var(--color-warning)' : 'var(--color-accent)'
+            }" 
+            style="padding: 2px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: 600;">
+            {{ complaint.status }}
+          </span>
+        </div>
+        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 10px;">
+          Submitted by STU-{{ complaint.studentId }} on {{ complaint.createdAt | date:'mediumDate' }}
+        </p>
+        <p style="color: var(--text-main);">{{ complaint.description }}</p>
+      </div>
+      <button 
+        *ngIf="complaint.status === 'PENDING'" 
+        class="btn-primary" 
+        style="background: var(--color-accent);"
+        (click)="resolveComplaint(complaint.complaintId)">
+        Mark as Resolved
+      </button>
+    </div>
   </div>
 </div>

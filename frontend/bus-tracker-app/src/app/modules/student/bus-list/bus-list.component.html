@@ -1,1 +1,36 @@
-<h2>bus list works!</h2>
+<div class="page-header" style="margin-bottom: 25px;">
+  <h1 style="color: var(--color-primary); font-size: 1.8rem; margin-bottom: 5px;">Live Buses</h1>
+  <p style="color: var(--text-muted);">Track buses currently operating on your campus.</p>
+</div>
+
+<div style="margin-bottom: 25px; display: flex; justify-content: space-between;">
+  <input type="text" class="input-field" placeholder="Search by route or bus number..." style="max-width: 400px;" (input)="onSearch($event)">
+  <button class="btn-primary" routerLink="/student/live-map" style="background: var(--color-accent);">View Live Map</button>
+</div>
+
+<div class="bus-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px;">
+  
+  <div *ngIf="filteredBuses.length === 0" style="grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 30px;">
+    No active buses match your search.
+  </div>
+
+  <div *ngFor="let bus of filteredBuses" class="glass-panel bus-card" style="padding: 20px;">
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px;">
+      <div>
+        <h2 style="color: var(--text-main); font-size: 1.25rem; margin-bottom: 3px;">Bus #{{ bus.busId }}</h2>
+        <span style="color: var(--text-muted); font-size: 0.9rem;">{{ bus.routeCode || 'Unassigned Route' }}</span>
+      </div>
+      <span [ngStyle]="{'color': bus.status === 'ACTIVE' ? 'var(--color-accent)' : 'var(--color-warning)'}" 
+            style="background: rgba(16, 185, 129, 0.1); padding: 3px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: 600;">
+        {{ bus.status }}
+      </span>
+    </div>
+
+    <div style="margin-bottom: 20px;">
+      <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 5px;">Current Stop: <strong style="color: var(--text-main);">{{ bus.currentStop || 'In Transit' }}</strong></p>
+      <p style="color: var(--text-muted); font-size: 0.9rem;">Capacity: <strong style="color: var(--text-main);">{{ bus.capacity }}</strong></p>
+    </div>
+
+    <button class="btn-primary" style="width: 100%;" [routerLink]="['/student/buses', bus.busId]">Track Live</button>
+  </div>
+</div>

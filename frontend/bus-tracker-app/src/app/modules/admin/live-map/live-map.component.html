@@ -1,1 +1,31 @@
-<h2>live map works!</h2>
+<div class="map-wrapper" style="height: 100%; display: flex; flex-direction: column;">
+  <div class="map-header" style="margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;">
+    <div>
+      <h1 style="color: var(--color-primary); font-size: 1.8rem; margin-bottom: 5px;">Live Fleet Map</h1>
+      <p style="color: var(--text-muted);">Real-time tracking of all active buses.</p>
+    </div>
+    <div class="map-controls">
+      <select class="input-field" style="width: 200px;">
+        <option>All Routes</option>
+        <option>Route A</option>
+        <option>Route B</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="glass-panel map-container" style="flex: 1; min-height: 500px; position: relative; background: #e2e8f0; border-radius: var(--radius-lg); overflow: hidden; display: flex; align-items: center; justify-content: center;">
+    <!-- Mock Map Background -->
+    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: radial-gradient(#cbd5e1 2px, transparent 2px); background-size: 30px 30px;"></div>
+    
+    <!-- Mock Bus Markers -->
+    <div class="bus-marker" style="position: absolute; top: 40%; left: 30%; background: var(--color-primary); color: white; padding: 5px 10px; border-radius: 20px; font-weight: bold; font-size: 0.8rem; box-shadow: var(--shadow-md);">
+      Bus #4 (Route A)
+    </div>
+    
+    <div class="bus-marker" style="position: absolute; top: 60%; left: 70%; background: var(--color-secondary); color: white; padding: 5px 10px; border-radius: 20px; font-weight: bold; font-size: 0.8rem; box-shadow: var(--shadow-md);">
+      Bus #7 (Route B)
+    </div>
+
+    <h2 style="position: relative; z-index: 10; color: var(--text-muted); background: rgba(255,255,255,0.8); padding: 10px 20px; border-radius: var(--radius-md);">Interactive Map Integration Goes Here</h2>
+  </div>
+</div>

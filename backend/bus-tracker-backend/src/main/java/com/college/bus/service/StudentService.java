@@ -60,28 +60,12 @@ public class StudentService {
         return occupancyRepository.findByBus_BusId(busId).orElse(null);
     }
     
-    public Bus getRecommendedBus(Long studentId) {
+    public Bus getAssignedBus(Long studentId) {
         Optional<Student> studentOpt = studentRepository.findById(studentId);
         if (studentOpt.isEmpty()) return null;
         
         Student student = studentOpt.get();
-        Route route = student.getRoute();
-        
-        if (route == null) return null;
-        
-        List<Bus> buses = busRepository.findByRoute_RouteId(route.getRouteId());
-        
-        return buses.stream()
-            .filter(bus -> bus.getStatus() == BusStatus.ACTIVE)
-            .min((b1, b2) -> {
-                BusOccupancy o1 = getBusOccupancy(b1.getBusId());
-                BusOccupancy o2 = getBusOccupancy(b2.getBusId());
-                return Double.compare(
-                    o1 != null ? o1.getOccupancyPercentage() : 100,
-                    o2 != null ? o2.getOccupancyPercentage() : 100
-                );
-            })
-            .orElse(null);
+        return student.getBus();
     }
     
     public List<Notification> getUnreadNotifications(Long studentId) {

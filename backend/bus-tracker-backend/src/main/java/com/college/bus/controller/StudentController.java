@@ -69,10 +69,10 @@ public class StudentController {
         return occupancy != null ? ResponseEntity.ok(occupancy) : ResponseEntity.notFound().build();
     }
     
-    @GetMapping("/recommended-bus")
-    public ResponseEntity<Bus> getRecommendedBus(@RequestParam Long studentId) {
-        Bus recommendedBus = studentService.getRecommendedBus(studentId);
-        return recommendedBus != null ? ResponseEntity.ok(recommendedBus) : ResponseEntity.noContent().build();
+    @GetMapping("/assigned-bus")
+    public ResponseEntity<Bus> getAssignedBus(@RequestParam Long studentId) {
+        Bus assignedBus = studentService.getAssignedBus(studentId);
+        return assignedBus != null ? ResponseEntity.ok(assignedBus) : ResponseEntity.noContent().build();
     }
     
     @GetMapping("/notifications/{studentId}")

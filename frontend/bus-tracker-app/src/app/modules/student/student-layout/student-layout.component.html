@@ -1,0 +1,37 @@
+<div class="app-layout">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <h2>Bus Tracker Student</h2>
+    </div>
+    <nav class="sidebar-nav">
+      <a routerLink="/student/dashboard" routerLinkActive="active-link">Dashboard</a>
+      <a routerLink="/student/live-map" routerLinkActive="active-link">Live Map</a>
+      <a routerLink="/student/buses" routerLinkActive="active-link">All Buses</a>
+      <a routerLink="/student/recommended" routerLinkActive="active-link">My Assigned Bus</a>
+      <a routerLink="/student/history" routerLinkActive="active-link">My History</a>
+      <a routerLink="/student/complaints" routerLinkActive="active-link">Complaints</a>
+      <a routerLink="/student/profile" routerLinkActive="active-link">Profile</a>
+    </nav>
+  </aside>
+
+  <!-- Main Content Area -->
+  <main class="main-content">
+    <header class="topbar">
+      <div class="topbar-search">
+        <input type="text" class="input-field" placeholder="Search routes...">
+      </div>
+      <div class="topbar-actions" style="display: flex; gap: 15px; align-items: center;">
+        <a routerLink="/student/notifications" style="text-decoration: none; color: var(--color-primary); font-weight: 500;">
+          🔔 Notifications
+        </a>
+        <button class="btn-primary" routerLink="/student/login">Logout</button>
+      </div>
+    </header>
+    
+    <div class="page-container">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+</div>
+

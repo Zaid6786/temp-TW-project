@@ -13,7 +13,8 @@ import { ManageStopsComponent } from './manage-stops/manage-stops.component';
 import { ManageStudentsComponent } from './manage-students/manage-students.component';
 import { ReportsComponent } from './reports/reports.component';
 import { SettingsComponent } from './settings/settings.component';
-import { AdminComplaintsComponent } from './complaints/complaints.component';
+import { ComplaintsComponent } from './complaints/complaints.component';
+import { AdminLayoutComponent } from './admin-layout/admin-layout.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { AdminComplaintsComponent } from './complaints/complaints.component';
     ManageStudentsComponent,
     ReportsComponent,
     SettingsComponent,
-    AdminComplaintsComponent
+    ComplaintsComponent,
+    AdminLayoutComponent
   ],
   imports: [
     CommonModule,

@@ -1,21 +1,35 @@
 import { Component, OnInit } from '@angular/core';
+import { StudentService } from '../../../services/student/student.service';
+import { AuthService } from '../../../services/auth/auth.service';
 
 @Component({
-  selector: 'app-student-dashboard',
+  selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class StudentDashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit {
+  student: any = {};
+  assignedBus: any = null;
+  studentId: number = 1;
 
-  studentName = 'Sumasree';
-  currentRoute = 'GIET-03';
-  status = 'On Route';
-  eta = '8 Minutes';
-  crowdLevel = 'Medium';
-  seatsAvailable = 18;
+  constructor(
+    private studentService: StudentService,
+    private authService: AuthService
+  ) {}
 
-  constructor() { }
+  ngOnInit() {
+    this.authService.currentUser$.subscribe(user => {
+      if (user && user.studentId) {
+        this.studentId = parseInt(user.studentId.replace(/\D/g, '')) || 1;
+      }
+    });
 
-  ngOnInit(): void {
+    this.studentService.getProfile(this.studentId).subscribe(data => {
+      this.student = data || { name: 'Student', route: 'Route A' };
+    });
+
+    this.studentService.getAssignedBus(this.studentId).subscribe(bus => {
+      this.assignedBus = bus;
+    });
   }
 }

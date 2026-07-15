@@ -1,1 +1,27 @@
-<h2>login works!</h2>
+<div class="login-wrapper">
+  <div class="glass-panel login-card">
+    <div class="login-header">
+      <h2>Bus Tracker</h2>
+      <p>Admin Portal</p>
+    </div>
+    
+    <form (ngSubmit)="onLogin()">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" class="input-field" placeholder="Enter your username" [(ngModel)]="username" name="username" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" class="input-field" placeholder="Enter your password" [(ngModel)]="password" name="password" required>
+      </div>
+      
+      <button type="submit" class="btn-primary login-btn">Login to Dashboard</button>
+    </form>
+    
+    <div class="login-footer">
+      <a routerLink="/student/login">Are you a student? Login here</a>
+    </div>
+  </div>
+</div>
+

@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from '../../../services/auth/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -6,10 +8,17 @@ import { Component } from '@angular/core';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
-  email = '';
+  studentId = '';
   password = '';
 
-  login() {
-    console.log('Login logic here');
+  constructor(private router: Router, private authService: AuthService) {}
+
+  onLogin() {
+    if (this.studentId && this.password) {
+      this.authService.studentLogin(this.studentId, this.password).subscribe(res => {
+        this.router.navigate(['/student/dashboard']);
+      });
+    }
   }
 }
+

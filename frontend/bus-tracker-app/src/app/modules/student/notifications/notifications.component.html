@@ -1,1 +1,31 @@
-<h2>notifications works!</h2>
+<div class="page-header" style="margin-bottom: 25px;">
+  <h1 style="color: var(--color-primary); font-size: 1.8rem; margin-bottom: 5px;">Notifications</h1>
+  <p style="color: var(--text-muted);">Important alerts and updates about your buses.</p>
+</div>
+
+<div class="notifications-list" style="display: flex; flex-direction: column; gap: 15px;">
+  
+  <div *ngIf="notifications.length === 0" style="padding: 20px; text-align: center; color: var(--text-muted);" class="glass-panel">
+    You have no notifications.
+  </div>
+
+  <div *ngFor="let notification of notifications" class="glass-panel" 
+       [ngStyle]="{'border-left': notification.isRead ? 'none' : '4px solid var(--color-accent)'}" 
+       style="padding: 20px; display: flex; justify-content: space-between; align-items: flex-start; transition: transform 0.2s;">
+    <div>
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 5px;">
+        <h3 style="color: var(--text-main); font-size: 1.1rem; margin: 0;">{{ notification.title }}</h3>
+        <span *ngIf="!notification.isRead" style="background: var(--color-accent); color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.7rem; font-weight: 600;">NEW</span>
+      </div>
+      <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 10px;">{{ notification.createdAt | date:'short' }}</p>
+      <p style="color: var(--text-main);">{{ notification.message }}</p>
+    </div>
+    
+    <button *ngIf="!notification.isRead" 
+            class="btn-primary" 
+            style="background: transparent; border: 1px solid var(--color-accent); color: var(--color-accent); font-size: 0.85rem; padding: 5px 15px; box-shadow: none;"
+            (click)="markAsRead(notification.notificationId)">
+      Mark as Read
+    </button>
+  </div>
+</div>

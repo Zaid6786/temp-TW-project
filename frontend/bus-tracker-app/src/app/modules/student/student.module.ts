@@ -3,8 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { StudentRoutingModule } from './student-routing.module';
-import { StudentDashboardComponent } from './dashboard/dashboard.component';
-import { LoginComponent } from './login/login.component';
 import { LiveMapComponent } from './live-map/live-map.component';
 import { BusListComponent } from './bus-list/bus-list.component';
 import { BusDetailsComponent } from './bus-details/bus-details.component';
@@ -12,12 +10,13 @@ import { RecommendedBusComponent } from './recommended-bus/recommended-bus.compo
 import { NotificationsComponent } from './notifications/notifications.component';
 import { ProfileComponent } from './profile/profile.component';
 import { HistoryComponent } from './history/history.component';
-import { StudentComplaintsComponent } from './complaints/complaints.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { LoginComponent } from './login/login.component';
+import { ComplaintsComponent } from './complaints/complaints.component';
+import { StudentLayoutComponent } from './student-layout/student-layout.component';
 
 @NgModule({
   declarations: [
-    StudentDashboardComponent,
-    LoginComponent,
     LiveMapComponent,
     BusListComponent,
     BusDetailsComponent,
@@ -25,7 +24,10 @@ import { StudentComplaintsComponent } from './complaints/complaints.component';
     NotificationsComponent,
     ProfileComponent,
     HistoryComponent,
-    StudentComplaintsComponent
+    DashboardComponent,
+    LoginComponent,
+    ComplaintsComponent,
+    StudentLayoutComponent
   ],
   imports: [
     CommonModule,

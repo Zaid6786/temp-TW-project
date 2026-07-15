@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { StudentDashboardComponent } from './dashboard/dashboard.component';
+import { StudentLayoutComponent } from './student-layout/student-layout.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
 import { LiveMapComponent } from './live-map/live-map.component';
 import { BusListComponent } from './bus-list/bus-list.component';
@@ -10,20 +11,29 @@ import { RecommendedBusComponent } from './recommended-bus/recommended-bus.compo
 import { NotificationsComponent } from './notifications/notifications.component';
 import { ProfileComponent } from './profile/profile.component';
 import { HistoryComponent } from './history/history.component';
-import { StudentComplaintsComponent } from './complaints/complaints.component';
+import { ComplaintsComponent } from './complaints/complaints.component';
+
+import { authGuard } from '../../guards/auth/auth.guard';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
-  { path: 'dashboard', component: StudentDashboardComponent },
-  { path: 'live-map', component: LiveMapComponent },
-  { path: 'buses', component: BusListComponent },
-  { path: 'buses/:id', component: BusDetailsComponent },
-  { path: 'recommended', component: RecommendedBusComponent },
-  { path: 'notifications', component: NotificationsComponent },
-  { path: 'profile', component: ProfileComponent },
-  { path: 'history', component: HistoryComponent },
-  { path: 'complaints', component: StudentComplaintsComponent },
-  { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
+  {
+    path: '',
+    component: StudentLayoutComponent,
+    canActivate: [authGuard],
+    children: [
+      { path: 'dashboard', component: DashboardComponent },
+      { path: 'live-map', component: LiveMapComponent },
+      { path: 'buses', component: BusListComponent },
+      { path: 'buses/:id', component: BusDetailsComponent },
+      { path: 'recommended', component: RecommendedBusComponent },
+      { path: 'notifications', component: NotificationsComponent },
+      { path: 'profile', component: ProfileComponent },
+      { path: 'history', component: HistoryComponent },
+      { path: 'complaints', component: ComplaintsComponent },
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
+    ]
+  }
 ];
 
 @NgModule({
@@ -31,3 +41,4 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class StudentRoutingModule { }
+

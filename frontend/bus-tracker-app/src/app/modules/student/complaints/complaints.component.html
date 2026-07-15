@@ -1,60 +1,34 @@
-<div class="complaints-container">
-  <div class="header">
-    <h2>My Complaints</h2>
-    <button class="btn btn-primary" (click)="showForm = !showForm">
-      {{ showForm ? 'Cancel' : 'New Complaint' }}
-    </button>
+<div class="page-header" style="margin-bottom: 25px;">
+  <h1 style="color: var(--color-primary); font-size: 1.8rem; margin-bottom: 5px;">Submit a Complaint</h1>
+  <p style="color: var(--text-muted);">Report an issue with a bus, driver, or route.</p>
+</div>
+
+<div class="glass-panel" style="padding: 30px; max-width: 700px;">
+  
+  <div *ngIf="message" style="padding: 15px; margin-bottom: 20px; border-radius: var(--radius-md); background: rgba(16, 185, 129, 0.1); color: var(--color-accent); border: 1px solid var(--color-accent);">
+    {{ message }}
   </div>
 
-  <div class="complaint-form-card" *ngIf="showForm">
-    <h3>Submit a New Issue</h3>
-    <form [formGroup]="complaintForm" (ngSubmit)="onSubmit()">
-      
-      <div class="form-group">
-        <label>Title</label>
-        <input type="text" formControlName="title" class="form-control" placeholder="Brief issue title">
-      </div>
-
-      <div class="form-group">
-        <label>Description</label>
-        <textarea formControlName="description" class="form-control" rows="4" placeholder="Describe the issue in detail"></textarea>
-      </div>
-
-      <div class="form-group">
-        <label>Attach Image</label>
-        <input type="file" (change)="onFileSelected($event)" accept="image/*" class="form-control-file">
-        <small class="text-muted" *ngIf="selectedFile">Selected: {{selectedFile.name}}</small>
-      </div>
-
-      <button type="submit" class="btn btn-success" [disabled]="complaintForm.invalid || isSubmitting">
-        {{ isSubmitting ? 'Submitting...' : 'Submit Complaint' }}
-      </button>
-    </form>
-  </div>
-
-  <div class="complaints-list">
-    <div class="complaint-card" *ngFor="let c of complaints">
-      <div class="card-header">
-        <h4>{{ c.title }}</h4>
-        <span class="badge" [ngClass]="{
-          'status-pending': c.status === 'PENDING',
-          'status-resolved': c.status === 'RESOLVED'
-        }">{{ c.status }}</span>
-      </div>
-      <div class="card-body">
-        <p>{{ c.description }}</p>
-        <div class="image-preview" *ngIf="c.imageUrl">
-          <img [src]="c.imageUrl" alt="Complaint Attachment">
-        </div>
-        <div class="meta">
-          <small>Submitted: {{ c.createdAt | date:'medium' }}</small>
-          <small *ngIf="c.resolvedAt">Resolved: {{ c.resolvedAt | date:'medium' }}</small>
-        </div>
-      </div>
+  <form (ngSubmit)="onSubmit()">
+    <div style="margin-bottom: 20px;">
+      <label style="display: block; margin-bottom: 8px; font-weight: 500; color: var(--text-main);">Issue Subject</label>
+      <input type="text" class="input-field" [(ngModel)]="title" name="title" placeholder="Brief description of the issue" required>
     </div>
 
-    <div class="no-data" *ngIf="complaints.length === 0">
-      <p>You have no complaints submitted.</p>
+    <div style="margin-bottom: 20px;">
+      <label style="display: block; margin-bottom: 8px; font-weight: 500; color: var(--text-main);">Related Route / Bus (Optional)</label>
+      <select class="input-field" [(ngModel)]="selectedRoute" name="selectedRoute">
+        <option value="">Select a Route</option>
+        <option value="Route A">Route A</option>
+        <option value="Route B">Route B</option>
+      </select>
     </div>
-  </div>
+
+    <div style="margin-bottom: 20px;">
+      <label style="display: block; margin-bottom: 8px; font-weight: 500; color: var(--text-main);">Details</label>
+      <textarea class="input-field" rows="5" [(ngModel)]="description" name="description" placeholder="Please provide more details..." required></textarea>
+    </div>
+
+    <button type="submit" class="btn-primary" style="background: var(--color-accent); width: 100%;">Submit Complaint</button>
+  </form>
 </div>

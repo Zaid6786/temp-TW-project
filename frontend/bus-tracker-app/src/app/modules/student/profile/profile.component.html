@@ -1,1 +1,44 @@
-<h2>profile works!</h2>
+<div class="page-header" style="margin-bottom: 25px;">
+  <h1 style="color: var(--color-primary); font-size: 1.8rem; margin-bottom: 5px;">My Profile</h1>
+  <p style="color: var(--text-muted);">Manage your personal information and preferences.</p>
+</div>
+
+<div style="display: grid; grid-template-columns: 1fr 2fr; gap: 30px;">
+  <div class="glass-panel" style="padding: 30px; text-align: center;">
+    <div style="width: 120px; height: 120px; border-radius: 50%; background: var(--border-color); margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; font-size: 3rem; color: var(--text-muted);">
+      👤
+    </div>
+    <h2 style="color: var(--text-main); margin-bottom: 5px;">{{ student.name }}</h2>
+    <p style="color: var(--text-muted); margin-bottom: 20px;">{{ student.rollNo }}</p>
+    <button class="btn-primary" style="background: transparent; color: var(--color-primary); border: 1px solid var(--color-primary); box-shadow: none;">Change Photo</button>
+  </div>
+
+  <div class="glass-panel" style="padding: 30px;">
+    <h3 style="color: var(--text-main); margin-bottom: 20px; font-size: 1.2rem; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">Personal Information</h3>
+    <form (ngSubmit)="saveChanges()">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+        <div>
+          <label style="display: block; margin-bottom: 8px; font-weight: 500; color: var(--text-main);">Full Name</label>
+          <input type="text" class="input-field" [(ngModel)]="student.name" name="name">
+        </div>
+        <div>
+          <label style="display: block; margin-bottom: 8px; font-weight: 500; color: var(--text-main);">Email Address</label>
+          <input type="email" class="input-field" [(ngModel)]="student.email" name="email">
+        </div>
+        <div>
+          <label style="display: block; margin-bottom: 8px; font-weight: 500; color: var(--text-main);">Phone Number</label>
+          <input type="tel" class="input-field" [(ngModel)]="student.phone" name="phone">
+        </div>
+        <div>
+          <label style="display: block; margin-bottom: 8px; font-weight: 500; color: var(--text-main);">Default Route</label>
+          <select class="input-field" [(ngModel)]="student.route" name="route">
+            <option value="Route A">Route A</option>
+            <option value="Route B">Route B</option>
+            <option value="Route C">Route C</option>
+          </select>
+        </div>
+      </div>
+      <button type="submit" class="btn-primary" style="background: var(--color-accent);">Save Changes</button>
+    </form>
+  </div>
+</div>

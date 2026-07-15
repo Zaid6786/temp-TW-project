@@ -1,14 +1,26 @@
-<div class="login-container">
-  <h2>Student Login</h2>
-  <form (ngSubmit)="login()">
-    <div>
-      <label>Email</label>
-      <input type="email" [(ngModel)]="email" name="email" required>
+<div class="login-wrapper student-theme">
+  <div class="glass-panel login-card">
+    <div class="login-header">
+      <h2>Bus Tracker</h2>
+      <p>Student Portal</p>
     </div>
-    <div>
-      <label>Password</label>
-      <input type="password" [(ngModel)]="password" name="password" required>
+    
+    <form (ngSubmit)="onLogin()">
+      <div class="form-group">
+        <label for="studentId">Student ID / Roll No</label>
+        <input type="text" id="studentId" class="input-field" placeholder="Enter your Student ID" [(ngModel)]="studentId" name="studentId" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" class="input-field" placeholder="Enter your password" [(ngModel)]="password" name="password" required>
+      </div>
+      
+      <button type="submit" class="btn-primary login-btn">Login to Tracker</button>
+    </form>
+    
+    <div class="login-footer">
+      <a routerLink="/admin/login">Are you an administrator? Login here</a>
     </div>
-    <button type="submit">Login</button>
-  </form>
+  </div>
 </div>

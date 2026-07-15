@@ -1,0 +1,37 @@
+<div class="app-layout">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <h2>Bus Tracker Admin</h2>
+    </div>
+    <nav class="sidebar-nav">
+      <a routerLink="/admin/dashboard" routerLinkActive="active-link">Dashboard</a>
+      <a routerLink="/admin/live-map" routerLinkActive="active-link">Live Map</a>
+      <a routerLink="/admin/buses" routerLinkActive="active-link">Manage Buses</a>
+      <a routerLink="/admin/drivers" routerLinkActive="active-link">Manage Drivers</a>
+      <a routerLink="/admin/routes" routerLinkActive="active-link">Manage Routes</a>
+      <a routerLink="/admin/stops" routerLinkActive="active-link">Manage Stops</a>
+      <a routerLink="/admin/students" routerLinkActive="active-link">Manage Students</a>
+      <a routerLink="/admin/reports" routerLinkActive="active-link">Reports</a>
+      <a routerLink="/admin/complaints" routerLinkActive="active-link">Complaints</a>
+      <a routerLink="/admin/settings" routerLinkActive="active-link">Settings</a>
+    </nav>
+  </aside>
+
+  <!-- Main Content Area -->
+  <main class="main-content">
+    <header class="topbar">
+      <div class="topbar-search">
+        <input type="text" class="input-field" placeholder="Search...">
+      </div>
+      <div class="topbar-actions">
+        <button class="btn-primary" routerLink="/admin/login">Logout</button>
+      </div>
+    </header>
+    
+    <div class="page-container">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+</div>
+
