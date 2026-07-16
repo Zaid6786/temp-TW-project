@@ -12,6 +12,7 @@ import { NotificationsComponent } from './notifications/notifications.component'
 import { ProfileComponent } from './profile/profile.component';
 import { HistoryComponent } from './history/history.component';
 import { ComplaintsComponent } from './complaints/complaints.component';
+import { ChatbotComponent } from './chatbot/chatbot.component';
 
 import { authGuard } from '../../guards/auth/auth.guard';
 
@@ -31,6 +32,7 @@ const routes: Routes = [
       { path: 'profile', component: ProfileComponent },
       { path: 'history', component: HistoryComponent },
       { path: 'complaints', component: ComplaintsComponent },
+      { path: 'chatbot', component: ChatbotComponent },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
     ]
   }

@@ -14,6 +14,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
 import { ComplaintsComponent } from './complaints/complaints.component';
 import { StudentLayoutComponent } from './student-layout/student-layout.component';
+import { ChatbotComponent } from './chatbot/chatbot.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { StudentLayoutComponent } from './student-layout/student-layout.componen
     DashboardComponent,
     LoginComponent,
     ComplaintsComponent,
-    StudentLayoutComponent
+    StudentLayoutComponent,
+    ChatbotComponent
   ],
   imports: [
     CommonModule,

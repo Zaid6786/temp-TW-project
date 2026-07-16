@@ -63,6 +63,12 @@ public class StudentController {
         return location != null ? ResponseEntity.ok(location) : ResponseEntity.notFound().build();
     }
     
+    @PostMapping("/bus/{busId}/location")
+    public ResponseEntity<BusLocation> updateBusLocation(@PathVariable Long busId, @RequestBody BusLocation location) {
+        BusLocation savedLocation = busService.updateBusLocation(busId, location);
+        return savedLocation != null ? ResponseEntity.ok(savedLocation) : ResponseEntity.notFound().build();
+    }
+    
     @GetMapping("/bus/{busId}/occupancy")
     public ResponseEntity<BusOccupancy> getBusOccupancy(@PathVariable Long busId) {
         BusOccupancy occupancy = studentService.getBusOccupancy(busId);

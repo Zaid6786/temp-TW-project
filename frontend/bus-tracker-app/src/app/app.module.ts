@@ -6,15 +6,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-
-// Material Modules (dummy for now until installed)
-// import { MatCardModule } from '@angular/material/card';
-// import { MatButtonModule } from '@angular/material/button';
-// import { MatInputModule } from '@angular/material/input';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    NavbarComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
