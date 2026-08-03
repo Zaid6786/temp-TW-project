@@ -1,0 +1,75 @@
+<div class="page-header" style="margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center;">
+  <div>
+    <h1 style="color: var(--color-primary); font-size: 1.8rem; margin-bottom: 5px;">Manage Routes</h1>
+    <p style="color: var(--text-muted);">View, add, and map bus routes.</p>
+  </div>
+  <button class="btn-primary" style="background: var(--color-accent);" (click)="openModal()">+ Create New Route</button>
+</div>
+
+<div class="glass-panel" style="padding: 25px;">
+  <table style="width: 100%; border-collapse: collapse; text-align: left;">
+    <thead>
+      <tr style="border-bottom: 2px solid var(--border-color); color: var(--text-muted);">
+        <th style="padding: 12px 10px;">Route Code</th>
+        <th style="padding: 12px 10px;">Start Point</th>
+        <th style="padding: 12px 10px;">End Point</th>
+        <th style="padding: 12px 10px;">Distance (km)</th>
+        <th style="padding: 12px 10px;">Estimated Time (mins)</th>
+        <th style="padding: 12px 10px; text-align: right;">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngIf="routes.length === 0">
+        <td colspan="6" style="padding: 20px; text-align: center; color: var(--text-muted);">No routes found.</td>
+      </tr>
+      <tr *ngFor="let route of routes" style="border-bottom: 1px solid var(--border-color);">
+        <td style="padding: 15px 10px; font-weight: 500;">{{ route.routeCode }}</td>
+        <td style="padding: 15px 10px;">{{ route.startPoint }}</td>
+        <td style="padding: 15px 10px;">{{ route.endPoint }}</td>
+        <td style="padding: 15px 10px;">{{ route.distance }}</td>
+        <td style="padding: 15px 10px;">{{ route.estimatedTime }}</td>
+        <td style="padding: 15px 10px; text-align: right;">
+          <button (click)="openModal(route)" style="background: transparent; border: none; color: var(--color-primary); margin-right: 10px; cursor: pointer;">Edit</button>
+          <button (click)="deleteRoute(route.routeId)" style="background: transparent; border: none; color: var(--color-danger); cursor: pointer;">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Modal for Create/Edit -->
+<div *ngIf="showModal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; z-index: 1000;">
+  <div class="glass-panel" style="padding: 30px; width: 400px; background: var(--bg-body);">
+    <h2 style="color: var(--text-main); margin-bottom: 20px;">{{ isEditing ? 'Edit Route' : 'Create New Route' }}</h2>
+    
+    <div style="margin-bottom: 15px;">
+      <label style="display: block; margin-bottom: 5px; color: var(--text-main);">Route Code</label>
+      <input type="text" class="input-field" [(ngModel)]="currentRoute.routeCode">
+    </div>
+    
+    <div style="margin-bottom: 15px;">
+      <label style="display: block; margin-bottom: 5px; color: var(--text-main);">Start Point</label>
+      <input type="text" class="input-field" [(ngModel)]="currentRoute.startPoint">
+    </div>
+
+    <div style="margin-bottom: 15px;">
+      <label style="display: block; margin-bottom: 5px; color: var(--text-main);">End Point</label>
+      <input type="text" class="input-field" [(ngModel)]="currentRoute.endPoint">
+    </div>
+
+    <div style="margin-bottom: 15px;">
+      <label style="display: block; margin-bottom: 5px; color: var(--text-main);">Distance (km)</label>
+      <input type="number" class="input-field" [(ngModel)]="currentRoute.distance">
+    </div>
+
+    <div style="margin-bottom: 25px;">
+      <label style="display: block; margin-bottom: 5px; color: var(--text-main);">Estimated Time (mins)</label>
+      <input type="number" class="input-field" [(ngModel)]="currentRoute.estimatedTime">
+    </div>
+
+    <div style="display: flex; justify-content: flex-end; gap: 10px;">
+      <button class="btn-primary" style="background: transparent; border: 1px solid var(--text-muted); color: var(--text-muted); box-shadow: none;" (click)="closeModal()">Cancel</button>
+      <button class="btn-primary" style="background: var(--color-accent);" (click)="saveRoute()">Save</button>
+    </div>
+  </div>
+</div>

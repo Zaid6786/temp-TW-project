@@ -1,0 +1,92 @@
+<div class="page-header" style="margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center;">
+  <div>
+    <h1 style="color: var(--color-primary); font-size: 1.8rem; margin-bottom: 5px;">Manage Drivers</h1>
+    <p style="color: var(--text-muted);">View, add, and manage driver assignments.</p>
+  </div>
+  <button class="btn-primary" style="background: var(--color-accent);" (click)="openModal()">+ Add New Driver</button>
+</div>
+
+<div class="glass-panel" style="padding: 25px;">
+  <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+    <input type="text" class="input-field" placeholder="Search drivers by name or ID..." style="max-width: 300px;" (input)="onSearch($event)">
+  </div>
+
+  <table style="width: 100%; border-collapse: collapse; text-align: left;">
+    <thead>
+      <tr style="border-bottom: 2px solid var(--border-color); color: var(--text-muted);">
+        <th style="padding: 12px 10px;">Driver ID</th>
+    <th style="padding: 12px 10px;">Name</th>
+    <th style="padding: 12px 10px;">Username</th>
+    <th style="padding: 12px 10px;">Contact</th>
+        <th style="padding: 12px 10px;">Status</th>
+        <th style="padding: 12px 10px; text-align: right;">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngIf="filteredDrivers.length === 0">
+        <td colspan="5" style="padding: 20px; text-align: center; color: var(--text-muted);">No drivers found.</td>
+      </tr>
+      <tr *ngFor="let driver of filteredDrivers" style="border-bottom: 1px solid var(--border-color);">
+      <td style="padding: 15px 10px; font-weight: 500;">D-{{ driver.driverId }}</td>
+      <td style="padding: 15px 10px;">{{ driver.name }}</td>
+      <td style="padding: 15px 10px;">{{ driver.username || 'N/A' }}</td>
+      <td style="padding: 15px 10px;">{{ driver.phone }}</td>
+        <td style="padding: 15px 10px;">
+          <span [ngStyle]="{'color': driver.status === 'AVAILABLE' ? 'var(--color-accent)' : 'var(--color-warning)'}" style="font-weight: 600;">
+            {{ driver.status }}
+          </span>
+        </td>
+        <td style="padding: 15px 10px; text-align: right;">
+          <button (click)="openModal(driver)" style="background: transparent; border: none; color: var(--color-primary); margin-right: 10px; cursor: pointer;">Edit</button>
+          <button (click)="deleteDriver(driver.driverId)" style="background: transparent; border: none; color: var(--color-danger); cursor: pointer;">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Modal for Create/Edit -->
+<div *ngIf="showModal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; z-index: 1000;">
+  <div class="glass-panel" style="padding: 30px; width: 400px; background: var(--bg-body);">
+    <h2 style="color: var(--text-main); margin-bottom: 20px;">{{ isEditing ? 'Edit Driver' : 'Add New Driver' }}</h2>
+    
+    <div style="margin-bottom: 15px;">
+      <label style="display: block; margin-bottom: 5px; color: var(--text-main);">Full Name</label>
+      <input type="text" class="input-field" [(ngModel)]="currentDriver.name">
+    </div>
+    
+    <div style="margin-bottom: 15px;">
+      <label style="display: block; margin-bottom: 5px; color: var(--text-main);">Phone Number</label>
+      <input type="text" class="input-field" [(ngModel)]="currentDriver.phone">
+    </div>
+
+    <div style="margin-bottom: 15px;">
+      <label style="display: block; margin-bottom: 5px; color: var(--text-main);">License Number</label>
+      <input type="text" class="input-field" [(ngModel)]="currentDriver.license">
+    </div>
+
+    <div style="margin-bottom: 15px;">
+      <label style="display: block; margin-bottom: 5px; color: var(--text-main);">Username (For Driver Login)</label>
+      <input type="text" class="input-field" [(ngModel)]="currentDriver.username">
+    </div>
+
+    <div style="margin-bottom: 15px;">
+      <label style="display: block; margin-bottom: 5px; color: var(--text-main);">Password</label>
+      <input type="password" class="input-field" [(ngModel)]="currentDriver.password">
+    </div>
+
+    <div style="margin-bottom: 25px;">
+      <label style="display: block; margin-bottom: 5px; color: var(--text-main);">Status</label>
+      <select class="input-field" [(ngModel)]="currentDriver.status">
+        <option value="AVAILABLE">Available</option>
+        <option value="ON_DUTY">On Duty</option>
+        <option value="ON_LEAVE">On Leave</option>
+      </select>
+    </div>
+
+    <div style="display: flex; justify-content: flex-end; gap: 10px;">
+      <button class="btn-primary" style="background: transparent; border: 1px solid var(--text-muted); color: var(--text-muted); box-shadow: none;" (click)="closeModal()">Cancel</button>
+      <button class="btn-primary" style="background: var(--color-accent);" (click)="saveDriver()">Save</button>
+    </div>
+  </div>
+</div>

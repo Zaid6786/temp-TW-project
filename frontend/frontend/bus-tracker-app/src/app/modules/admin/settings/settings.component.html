@@ -1,0 +1,34 @@
+<div class="page-header" style="margin-bottom: 25px;">
+  <h1 style="color: var(--color-primary); font-size: 1.8rem; margin-bottom: 5px;">System Settings</h1>
+  <p style="color: var(--text-muted);">Configure global preferences and parameters.</p>
+</div>
+
+<div class="glass-panel" style="padding: 30px; max-width: 800px;">
+  <form>
+    <div style="margin-bottom: 25px;">
+      <h3 style="color: var(--text-main); margin-bottom: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 5px;">General</h3>
+      <div style="margin-bottom: 15px;">
+        <label style="display: block; margin-bottom: 8px; font-weight: 500;">System Name</label>
+        <input type="text" class="input-field" value="University Bus Tracker">
+      </div>
+      <div style="margin-bottom: 15px;">
+        <label style="display: block; margin-bottom: 8px; font-weight: 500;">Admin Email Contact</label>
+        <input type="email" class="input-field" value="admin@example.edu">
+      </div>
+    </div>
+
+    <div style="margin-bottom: 25px;">
+      <h3 style="color: var(--text-main); margin-bottom: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 5px;">Notifications</h3>
+      <div style="display: flex; align-items: center; margin-bottom: 10px;">
+        <input type="checkbox" id="emailAlerts" checked style="margin-right: 10px;">
+        <label for="emailAlerts">Enable Email Alerts for Complaints</label>
+      </div>
+      <div style="display: flex; align-items: center; margin-bottom: 10px;">
+        <input type="checkbox" id="smsAlerts" style="margin-right: 10px;">
+        <label for="smsAlerts">Enable SMS Alerts for Severe Delays</label>
+      </div>
+    </div>
+
+    <button type="button" class="btn-primary">Save Settings</button>
+  </form>
+</div>

@@ -1,0 +1,269 @@
+.map-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: 100%;
+}
+
+.map-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+
+  .page-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text-main);
+    letter-spacing: -0.5px;
+    margin-bottom: 6px;
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .page-subtitle {
+    color: var(--text-muted);
+    font-size: 1rem;
+    font-weight: 500;
+  }
+
+  .refresh-btn {
+    background: rgba(99, 102, 241, 0.08);
+    color: var(--color-primary);
+    border: 1.5px solid rgba(99, 102, 241, 0.15);
+    box-shadow: none;
+    padding: 10px 18px;
+
+    &:hover {
+      background: var(--color-primary);
+      color: white;
+      border-color: var(--color-primary);
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+    }
+  }
+}
+
+.map-frame-container {
+  display: flex;
+  position: relative;
+  height: 600px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  gap: 20px;
+
+  @media (max-width: 992px) {
+    flex-direction: column;
+    height: auto;
+  }
+}
+
+#mapbox-container {
+  flex: 1;
+  height: 100%;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+
+  @media (max-width: 992px) {
+    height: 450px;
+  }
+}
+
+/* Floating Status Panel */
+.status-panel {
+  width: 320px;
+  background: var(--bg-card);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  flex-shrink: 0;
+  overflow: hidden;
+
+  @media (max-width: 992px) {
+    width: 100%;
+    height: auto;
+  }
+
+  .panel-header {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1.5px dashed var(--border-color);
+    color: var(--color-primary);
+
+    h3 {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin: 0;
+    }
+  }
+
+  .panel-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    .no-buses {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      padding: 30px 10px;
+    }
+  }
+}
+
+.fleet-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.fleet-item {
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: transform var(--transition-fast);
+
+  &:hover {
+    transform: translateY(-1px);
+    border-color: rgba(99, 102, 241, 0.2);
+    background: rgba(255, 255, 255, 0.8);
+  }
+
+  .item-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .bus-badge {
+      font-weight: 800;
+      color: var(--text-main);
+      font-size: 0.9rem;
+    }
+
+    .route-badge {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      background: rgba(0, 0, 0, 0.04);
+      padding: 2px 8px;
+      border-radius: 6px;
+    }
+  }
+
+  .item-coords {
+    display: flex;
+    gap: 15px;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-family: monospace;
+  }
+
+  .item-status {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-top: 4px;
+
+    .speed {
+      color: var(--color-primary);
+    }
+
+    .status-indicator-label {
+      color: var(--color-warning);
+      background: rgba(245, 158, 11, 0.08);
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      font-weight: 700;
+
+      &.active {
+        color: var(--color-accent);
+        background: rgba(16, 185, 129, 0.08);
+      }
+    }
+  }
+}
+
+/* Custom Marker Styling for Mapbox */
+::ng-deep .custom-bus-marker {
+  cursor: pointer;
+  
+  .marker-bubble {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+    border: 3px solid white;
+    border-radius: 50px;
+    padding: 6px 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: white;
+    font-weight: 800;
+    font-size: 0.8rem;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35);
+    white-space: nowrap;
+    transition: transform var(--transition-fast);
+
+    &:hover {
+      transform: scale(1.08) translateY(-2px);
+    }
+  }
+}
+
+/* Popup Overlay Styles for Mapbox */
+::ng-deep .mapboxgl-popup-content {
+  border-radius: var(--radius-md) !important;
+  padding: 16px 20px !important;
+  box-shadow: var(--shadow-lg) !important;
+  border: 1px solid var(--border-color);
+  font-family: inherit;
+
+  .map-popup {
+    h4 {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 8px;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 4px;
+    }
+
+    p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+      line-height: 1.4;
+
+      strong {
+        color: var(--text-main);
+      }
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-weight: 700;
+
+      &.active {
+        background: rgba(16, 185, 129, 0.1);
+        color: var(--color-accent);
+      }
+    }
+  }
+}

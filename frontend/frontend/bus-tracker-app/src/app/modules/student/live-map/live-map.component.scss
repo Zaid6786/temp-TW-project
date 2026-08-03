@@ -1,0 +1,256 @@
+.map-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: 100%;
+}
+
+.map-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+
+  .page-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text-main);
+    letter-spacing: -0.5px;
+    margin-bottom: 6px;
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .page-subtitle {
+    color: var(--text-muted);
+    font-size: 1rem;
+    font-weight: 500;
+  }
+
+  .refresh-btn {
+    background: rgba(99, 102, 241, 0.08);
+    color: var(--color-primary);
+    border: 1.5px solid rgba(99, 102, 241, 0.15);
+    box-shadow: none;
+    padding: 10px 18px;
+
+    &:hover {
+      background: var(--color-primary);
+      color: white;
+      border-color: var(--color-primary);
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+    }
+  }
+}
+
+.map-frame-container {
+  display: flex;
+  position: relative;
+  height: 600px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  gap: 20px;
+
+  @media (max-width: 992px) {
+    flex-direction: column;
+    height: auto;
+  }
+}
+
+#mapbox-container {
+  flex: 1;
+  height: 100%;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+
+  @media (max-width: 992px) {
+    height: 450px;
+  }
+}
+
+/* Floating Driver Simulator Panel */
+.tracking-panel {
+  width: 320px;
+  padding: 30px 25px;
+  background: var(--bg-card);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  z-index: 10;
+  height: 100%;
+  flex-shrink: 0;
+
+  @media (max-width: 992px) {
+    width: 100%;
+    height: auto;
+  }
+
+  .panel-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1.5px dashed var(--border-color);
+    padding-bottom: 12px;
+    color: var(--color-primary);
+
+    h3 {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin: 0;
+    }
+  }
+
+  .panel-body {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    .desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-weight: 500;
+      line-height: 1.5;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+
+      label {
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+    }
+
+    .tracking-status-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.03);
+      padding: 10px 14px;
+      border-radius: var(--radius-md);
+      font-size: 0.85rem;
+
+      .lbl {
+        color: var(--text-muted);
+        font-weight: 600;
+      }
+
+      .status-indicator {
+        font-weight: 700;
+        color: var(--text-muted);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+
+        &.active {
+          color: var(--color-accent);
+        }
+
+        .indicator-dot {
+          width: 8px;
+          height: 8px;
+          background: #94a3b8;
+          border-radius: 50%;
+
+          &.pulse {
+            background: var(--color-accent);
+            box-shadow: 0 0 8px var(--color-accent);
+            animation: pulse-tracking 1.5s infinite;
+          }
+        }
+      }
+    }
+
+    .tracking-toggle-btn {
+      width: 100%;
+      height: 48px;
+      background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-primary) 100%);
+      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.15);
+
+      &.btn-stop {
+        background: linear-gradient(135deg, var(--color-danger) 0%, var(--color-warning) 100%);
+        box-shadow: 0 4px 15px rgba(244, 63, 94, 0.15);
+      }
+    }
+  }
+}
+
+/* Custom Marker Styling for Mapbox */
+::ng-deep .custom-bus-marker {
+  cursor: pointer;
+  
+  .marker-bubble {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+    border: 3px solid white;
+    border-radius: 50px;
+    padding: 6px 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: white;
+    font-weight: 800;
+    font-size: 0.8rem;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35);
+    white-space: nowrap;
+    transition: transform var(--transition-fast);
+
+    &:hover {
+      transform: scale(1.08) translateY(-2px);
+    }
+  }
+}
+
+/* Popup Overlay Styles for Mapbox */
+::ng-deep .mapboxgl-popup-content {
+  border-radius: var(--radius-md) !important;
+  padding: 16px 20px !important;
+  box-shadow: var(--shadow-lg) !important;
+  border: 1px solid var(--border-color);
+  font-family: inherit;
+
+  .map-popup {
+    h4 {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 8px;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 4px;
+    }
+
+    p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+      line-height: 1.4;
+
+      strong {
+        color: var(--text-main);
+      }
+    }
+  }
+}
+
+@keyframes pulse-tracking {
+  0% {
+    transform: scale(0.9);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.4;
+  }
+  100% {
+    transform: scale(0.9);
+    opacity: 1;
+  }
+}

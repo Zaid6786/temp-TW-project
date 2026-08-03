@@ -1,0 +1,161 @@
+<header class="app-header">
+  <!-- Top Main Control Row -->
+  <div class="header-main">
+    <!-- Brand / Logo -->
+    <div class="header-left">
+      <a class="brand-logo" routerLink="/">
+        <div class="logo-wrapper">
+          <svg class="logo-icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-1.1 0-2 .9-2 2v7h2"/>
+            <circle cx="7" cy="17" r="2"/>
+            <path d="M9 17h6"/>
+            <circle cx="17" cy="17" r="2"/>
+          </svg>
+          <span class="logo-glow"></span>
+        </div>
+        <span class="logo-text">Bus<span class="logo-highlight">Tracker</span></span>
+        <span class="logo-badge">PRO</span>
+      </a>
+      
+      <!-- System Role / Node Selector -->
+      <div class="header-node-badge" *ngIf="currentUser">
+        <div class="node-pulse"></div>
+        <div class="node-details">
+          <span class="node-label">Console Node</span>
+          <span class="node-value">{{ currentUser.role === 'ADMIN' ? 'Admin Controller' : 'Student Portal' }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Search Command Bar (Command-Palette style) -->
+    <div class="header-search-container" *ngIf="currentUser">
+      <div class="header-search-wrapper">
+        <span class="search-prefix-icon">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </span>
+        <input type="text" class="header-search-input" placeholder="Type a command or search routes, buses, stops...">
+        <span class="search-command-hint">⌘K</span>
+        <button class="header-search-submit">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- User & Account Controls -->
+    <div class="header-right">
+      <ng-container *ngIf="currentUser; else guestActions">
+        <!-- Account Dropdown Menu -->
+        <div class="user-profile-widget">
+          <div class="avatar-ring">
+            <div class="avatar-letter">
+              {{ (currentUser.username || currentUser.studentId)?.substring(0, 2).toUpperCase() }}
+            </div>
+          </div>
+          <div class="profile-details">
+            <span class="profile-greeting">Welcome back,</span>
+            <span class="profile-name">{{ currentUser.username || currentUser.studentId }} <span class="dropdown-chevron">▼</span></span>
+          </div>
+
+          <!-- Glassmorphic Dropdown Panel -->
+          <div class="profile-dropdown-panel">
+            <div class="panel-blur-bg"></div>
+            <div class="panel-content">
+              <h4>System Account</h4>
+              <div class="user-card-summary">
+                <span class="summary-name">{{ currentUser.username || currentUser.studentId }}</span>
+                <span class="summary-role">{{ currentUser.role }}</span>
+              </div>
+              <hr class="panel-divider">
+              <ul class="panel-links">
+                <li>
+                  <a [routerLink]="currentUser.role === 'ADMIN' ? '/admin/settings' : '/student/profile'">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                    Settings & Profile
+                  </a>
+                </li>
+                <li>
+                  <a [routerLink]="currentUser.role === 'ADMIN' ? '/admin/complaints' : '/student/complaints'">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                    Complaints Register
+                  </a>
+                </li>
+              </ul>
+              <hr class="panel-divider">
+              <button class="panel-logout-btn" (click)="logout()">Sign Out</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Logout Action Button -->
+        <button class="header-logout-btn" (click)="logout()" title="Sign Out">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+        </button>
+      </ng-container>
+
+      <ng-template #guestActions>
+        <span class="portal-secure-badge">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+          Secure Node Connection
+        </span>
+      </ng-template>
+    </div>
+  </div>
+
+  <!-- Sub Navigation Row -->
+  <div class="header-sub" *ngIf="currentUser">
+    <div class="sub-nav-wrapper">
+      <div class="sub-nav-trigger">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+        <span>Menu</span>
+      </div>
+
+      <!-- Student links -->
+      <nav class="sub-links" *ngIf="currentUser.role === 'STUDENT'">
+        <a class="sub-link-item" routerLink="/student/dashboard" routerLinkActive="sub-link-active">Dashboard</a>
+        <a class="sub-link-item" routerLink="/student/live-map" routerLinkActive="sub-link-active">Live Map</a>
+        <a class="sub-link-item" routerLink="/student/buses" routerLinkActive="sub-link-active">All Buses</a>
+        <a class="sub-link-item" routerLink="/student/recommended" routerLinkActive="sub-link-active">Assigned Bus</a>
+        <a class="sub-link-item" routerLink="/student/chatbot" routerLinkActive="sub-link-active">Bus Assistant</a>
+        <a class="sub-link-item" routerLink="/student/history" routerLinkActive="sub-link-active">History</a>
+        <a class="sub-link-item" routerLink="/student/complaints" routerLinkActive="sub-link-active">Complaints</a>
+        <a class="sub-link-item" routerLink="/student/profile" routerLinkActive="sub-link-active">Profile</a>
+      </nav>
+
+      <!-- Admin links -->
+      <nav class="sub-links" *ngIf="currentUser.role === 'ADMIN'">
+        <a class="sub-link-item" routerLink="/admin/dashboard" routerLinkActive="sub-link-active">Dashboard</a>
+        <a class="sub-link-item" routerLink="/admin/live-map" routerLinkActive="sub-link-active">Live Map</a>
+        <a class="sub-link-item" routerLink="/admin/buses" routerLinkActive="sub-link-active">Manage Buses</a>
+        <a class="sub-link-item" routerLink="/admin/drivers" routerLinkActive="sub-link-active">Manage Drivers</a>
+        <a class="sub-link-item" routerLink="/admin/routes" routerLinkActive="sub-link-active">Manage Routes</a>
+        <a class="sub-link-item" routerLink="/admin/stops" routerLinkActive="sub-link-active">Manage Stops</a>
+        <a class="sub-link-item" routerLink="/admin/students" routerLinkActive="sub-link-active">Manage Students</a>
+        <a class="sub-link-item" routerLink="/admin/reports" routerLinkActive="sub-link-active">Reports</a>
+        <a class="sub-link-item" routerLink="/admin/complaints" routerLinkActive="sub-link-active">Complaints</a>
+        <a class="sub-link-item" routerLink="/admin/settings" routerLinkActive="sub-link-active">Settings</a>
+      </nav>
+    </div>
+
+    <!-- System Telemetry Tracking -->
+    <div class="sub-telemetry">
+      <span class="pulse-indicator"></span>
+      <span class="telemetry-text">System Live Syncing</span>
+    </div>
+  </div>
+</header>

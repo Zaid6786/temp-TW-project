@@ -1,0 +1,213 @@
+.dashboard-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 35px;
+}
+
+.dashboard-header {
+  .welcome-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text-main);
+    letter-spacing: -0.5px;
+    margin-bottom: 6px;
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .welcome-subtitle {
+    color: var(--text-muted);
+    font-size: 1rem;
+    font-weight: 500;
+  }
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 25px;
+}
+
+.stat-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 25px;
+  background: var(--bg-card);
+  border-left: 5px solid var(--color-primary);
+
+  &.buses-card {
+    border-left-color: var(--color-accent);
+    .card-icon {
+      background: rgba(16, 185, 129, 0.08);
+      color: var(--color-accent);
+    }
+  }
+
+  &.routes-card {
+    border-left-color: var(--color-primary);
+    .card-icon {
+      background: rgba(99, 102, 241, 0.08);
+      color: var(--color-primary);
+    }
+  }
+
+  &.drivers-card {
+    border-left-color: var(--color-secondary);
+    .card-icon {
+      background: rgba(14, 165, 233, 0.08);
+      color: var(--color-secondary);
+    }
+  }
+
+  &.complaints-card {
+    border-left-color: var(--border-color);
+    .card-icon {
+      background: rgba(0, 0, 0, 0.04);
+      color: var(--text-muted);
+    }
+
+    &.unresolved {
+      border-left-color: var(--color-danger);
+      .card-icon {
+        background: rgba(244, 63, 94, 0.08);
+        color: var(--color-danger);
+      }
+      .card-value {
+        color: var(--color-danger);
+      }
+    }
+  }
+
+  .card-icon {
+    width: 54px;
+    height: 54px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .card-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    h3 {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .card-value {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1.2;
+    }
+  }
+}
+
+.section-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--text-main);
+  margin-bottom: 15px;
+  letter-spacing: -0.3px;
+}
+
+.quick-actions-section {
+  .actions-row {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+  }
+
+  .btn-secondary {
+    background: white;
+    color: var(--color-warning);
+    border: 1.5px solid var(--color-warning);
+    padding: 11px 24px;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    transition: all var(--transition-fast);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    &:hover {
+      background: rgba(245, 158, 11, 0.05);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.1);
+    }
+  }
+}
+
+.recent-activity-section {
+  .table-wrapper {
+    padding: 10px;
+    overflow-x: auto;
+  }
+
+  .activity-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 0.95rem;
+
+    th {
+      padding: 14px 20px;
+      color: var(--text-muted);
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    td {
+      padding: 16px 20px;
+      color: var(--text-main);
+      border-bottom: 1px solid var(--border-color);
+      font-weight: 500;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    .time-cell {
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+
+      &.active-badge {
+        background: rgba(16, 185, 129, 0.1);
+        color: var(--color-accent);
+      }
+
+      &.pending-badge {
+        background: rgba(245, 158, 11, 0.1);
+        color: var(--color-warning);
+      }
+
+      &.info-badge {
+        background: rgba(99, 102, 241, 0.1);
+        color: var(--color-primary);
+      }
+    }
+  }
+}

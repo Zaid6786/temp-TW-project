@@ -1,0 +1,45 @@
+<div class="complaints-wrapper">
+  <div class="page-header">
+    <h1 class="page-title">Submit a Complaint</h1>
+    <p class="page-subtitle">Report an issue with a bus, driver, or route.</p>
+  </div>
+  
+  <div class="glass-panel form-container">
+    <div *ngIf="message" class="alert-message">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5">
+        <circle cx="12" cy="12" r="10"></circle>
+        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+      </svg>
+      <span>{{ message }}</span>
+    </div>
+  
+    <form (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label>Issue Subject</label>
+        <input type="text" class="input-field" [(ngModel)]="title" name="title" placeholder="Brief description of the issue" required>
+      </div>
+  
+      <div class="form-group">
+        <label>Related Route / Bus (Optional)</label>
+        <select class="input-field select-field" [(ngModel)]="selectedRoute" name="selectedRoute">
+          <option value="">Select a Route</option>
+          <option value="Route A">Route A</option>
+          <option value="Route B">Route B</option>
+        </select>
+      </div>
+  
+      <div class="form-group">
+        <label>Details</label>
+        <textarea class="input-field textarea-field" rows="5" [(ngModel)]="description" name="description" placeholder="Please provide more details..." required></textarea>
+      </div>
+  
+      <button type="submit" class="btn-primary submit-btn">
+        <span>Submit Complaint</span>
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="22" y1="2" x2="11" y2="13"></line>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+        </svg>
+      </button>
+    </form>
+  </div>
+</div>

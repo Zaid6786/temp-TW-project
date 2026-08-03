@@ -1,0 +1,80 @@
+<div class="page-header" style="margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center;">
+  <div>
+    <h1 style="color: var(--color-primary); font-size: 1.8rem; margin-bottom: 5px;">Manage Students</h1>
+    <p style="color: var(--text-muted);">View registered students and manage their bus assignments.</p>
+  </div>
+  <button class="btn-primary" style="background: var(--color-accent);" (click)="openModal()">+ Register Student</button>
+</div>
+
+<div class="glass-panel" style="padding: 25px;">
+  <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+    <input type="text" class="input-field" placeholder="Search by name or email..." style="max-width: 300px;" (input)="onSearch($event)">
+  </div>
+
+  <table style="width: 100%; border-collapse: collapse; text-align: left;">
+    <thead>
+      <tr style="border-bottom: 2px solid var(--border-color); color: var(--text-muted);">
+        <th style="padding: 12px 10px;">Roll No / ID</th>
+        <th style="padding: 12px 10px;">Name</th>
+        <th style="padding: 12px 10px;">Email</th>
+        <th style="padding: 12px 10px;">Assigned Bus</th>
+        <th style="padding: 12px 10px; text-align: right;">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngIf="filteredStudents.length === 0">
+        <td colspan="5" style="padding: 20px; text-align: center; color: var(--text-muted);">No students found.</td>
+      </tr>
+      <tr *ngFor="let student of filteredStudents" style="border-bottom: 1px solid var(--border-color);">
+        <td style="padding: 15px 10px; font-weight: 500;">{{ student.rollNo || 'STU-' + student.studentId }}</td>
+        <td style="padding: 15px 10px;">{{ student.name }}</td>
+        <td style="padding: 15px 10px;">{{ student.email }}</td>
+        <td style="padding: 15px 10px;">
+          <span *ngIf="student.bus">Bus #{{ student.bus.busId }} ({{ student.bus.capacity }} seats)</span>
+          <span *ngIf="!student.bus" style="color: var(--text-muted); font-style: italic;">Not Assigned</span>
+        </td>
+        <td style="padding: 15px 10px; text-align: right;">
+          <button (click)="openModal(student)" style="background: transparent; border: none; color: var(--color-primary); margin-right: 10px; cursor: pointer;">Edit</button>
+          <button (click)="deleteStudent(student.studentId)" style="background: transparent; border: none; color: var(--color-danger); cursor: pointer;">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Modal for Create/Edit -->
+<div *ngIf="showModal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; z-index: 1000;">
+  <div class="glass-panel" style="padding: 30px; width: 400px; background: var(--bg-body);">
+    <h2 style="color: var(--text-main); margin-bottom: 20px;">{{ isEditing ? 'Edit Student' : 'Register Student' }}</h2>
+    
+    <div style="margin-bottom: 15px;">
+      <label style="display: block; margin-bottom: 5px; color: var(--text-main);">Roll Number / Student ID</label>
+      <input type="text" class="input-field" [(ngModel)]="currentStudent.rollNo" placeholder="e.g., STU-101">
+    </div>
+    
+    <div style="margin-bottom: 15px;">
+      <label style="display: block; margin-bottom: 5px; color: var(--text-main);">Full Name</label>
+      <input type="text" class="input-field" [(ngModel)]="currentStudent.name">
+    </div>
+    
+    <div style="margin-bottom: 15px;">
+      <label style="display: block; margin-bottom: 5px; color: var(--text-main);">Email</label>
+      <input type="email" class="input-field" [(ngModel)]="currentStudent.email">
+    </div>
+
+    <div style="margin-bottom: 25px;">
+      <label style="display: block; margin-bottom: 5px; color: var(--text-main);">Assign Specific Bus</label>
+      <select class="input-field" [(ngModel)]="currentStudent.busId">
+        <option [ngValue]="null">-- Select a Bus --</option>
+        <option *ngFor="let bus of buses" [ngValue]="bus.busId">
+          Bus #{{ bus.busId }} (Capacity: {{ bus.capacity }})
+        </option>
+      </select>
+    </div>
+
+    <div style="display: flex; justify-content: flex-end; gap: 10px;">
+      <button class="btn-primary" style="background: transparent; border: 1px solid var(--text-muted); color: var(--text-muted); box-shadow: none;" (click)="closeModal()">Cancel</button>
+      <button class="btn-primary" style="background: var(--color-accent);" (click)="saveStudent()">Save</button>
+    </div>
+  </div>
+</div>

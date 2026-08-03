@@ -1,0 +1,82 @@
+<div class="page-header" style="margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center;">
+  <div>
+    <h1 style="color: var(--color-primary); font-size: 1.8rem; margin-bottom: 5px;">Manage Buses</h1>
+    <p style="color: var(--text-muted);">Add, edit, or remove buses from the fleet.</p>
+  </div>
+  <button class="btn-primary" style="background: var(--color-accent);" (click)="openModal()">+ Add New Bus</button>
+</div>
+
+<div class="glass-panel" style="padding: 25px;">
+  <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+    <input type="text" class="input-field" placeholder="Search buses by ID or Reg Num..." style="max-width: 300px;" (input)="onSearch($event)">
+  </div>
+
+  <table style="width: 100%; border-collapse: collapse; text-align: left;">
+    <thead>
+      <tr style="border-bottom: 2px solid var(--border-color); color: var(--text-muted);">
+        <th style="padding: 12px 10px;">Bus ID</th>
+        <th style="padding: 12px 10px;">License Plate</th>
+        <th style="padding: 12px 10px;">Assigned Route</th>
+        <th style="padding: 12px 10px;">Capacity</th>
+        <th style="padding: 12px 10px;">Status</th>
+        <th style="padding: 12px 10px; text-align: right;">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngIf="filteredBuses.length === 0">
+        <td colspan="6" style="padding: 20px; text-align: center; color: var(--text-muted);">No buses found.</td>
+      </tr>
+      <tr *ngFor="let bus of filteredBuses" style="border-bottom: 1px solid var(--border-color);">
+        <td style="padding: 15px 10px; font-weight: 500;">#{{ bus.busId }}</td>
+        <td style="padding: 15px 10px;">{{ bus.registrationNumber }}</td>
+        <td style="padding: 15px 10px;">{{ bus.routeCode || 'Unassigned' }}</td>
+        <td style="padding: 15px 10px;">{{ bus.capacity }}</td>
+        <td style="padding: 15px 10px;">
+          <span [ngStyle]="{'color': bus.status === 'ACTIVE' ? 'var(--color-accent)' : 'var(--color-warning)'}" style="font-weight: 600;">
+            {{ bus.status }}
+          </span>
+        </td>
+        <td style="padding: 15px 10px; text-align: right;">
+          <button (click)="openModal(bus)" style="background: transparent; border: none; color: var(--color-primary); margin-right: 10px; cursor: pointer;">Edit</button>
+          <button (click)="deleteBus(bus.busId)" style="background: transparent; border: none; color: var(--color-danger); cursor: pointer;">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Modal for Create/Edit -->
+<div *ngIf="showModal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; z-index: 1000;">
+  <div class="glass-panel" style="padding: 30px; width: 400px; background: var(--bg-body);">
+    <h2 style="color: var(--text-main); margin-bottom: 20px;">{{ isEditing ? 'Edit Bus' : 'Add New Bus' }}</h2>
+    
+    <div style="margin-bottom: 15px;">
+      <label style="display: block; margin-bottom: 5px; color: var(--text-main);">License Plate</label>
+      <input type="text" class="input-field" [(ngModel)]="currentBus.registrationNumber">
+    </div>
+    
+    <div style="margin-bottom: 15px;">
+      <label style="display: block; margin-bottom: 5px; color: var(--text-main);">Capacity</label>
+      <input type="number" class="input-field" [(ngModel)]="currentBus.capacity">
+    </div>
+
+    <div style="margin-bottom: 15px;">
+      <label style="display: block; margin-bottom: 5px; color: var(--text-main);">Assigned Route Code</label>
+      <input type="text" class="input-field" [(ngModel)]="currentBus.routeCode">
+    </div>
+
+    <div style="margin-bottom: 25px;">
+      <label style="display: block; margin-bottom: 5px; color: var(--text-main);">Status</label>
+      <select class="input-field" [(ngModel)]="currentBus.status">
+        <option value="ACTIVE">Active</option>
+        <option value="INACTIVE">Inactive</option>
+        <option value="MAINTENANCE">Maintenance</option>
+      </select>
+    </div>
+
+    <div style="display: flex; justify-content: flex-end; gap: 10px;">
+      <button class="btn-primary" style="background: transparent; border: 1px solid var(--text-muted); color: var(--text-muted); box-shadow: none;" (click)="closeModal()">Cancel</button>
+      <button class="btn-primary" style="background: var(--color-accent);" (click)="saveBus()">Save</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,158 @@
+.dashboard-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.dashboard-header {
+  .welcome-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text-main);
+    letter-spacing: -0.5px;
+    margin-bottom: 6px;
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .welcome-subtitle {
+    color: var(--text-muted);
+    font-size: 1rem;
+    font-weight: 500;
+  }
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+}
+
+.stat-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 25px;
+  background: var(--bg-card);
+  border-left: 5px solid var(--color-primary);
+
+  &.assigned-bus-card {
+    border-left-color: var(--color-accent);
+    .card-icon {
+      background: rgba(16, 185, 129, 0.08);
+      color: var(--color-accent);
+    }
+  }
+
+  &.bus-status-card {
+    border-left-color: var(--color-secondary);
+    .card-icon {
+      background: rgba(14, 165, 233, 0.08);
+      color: var(--color-secondary);
+    }
+
+    &.active-status {
+      border-left-color: var(--color-accent);
+      .card-icon {
+        background: rgba(16, 185, 129, 0.08);
+        color: var(--color-accent);
+      }
+      .status-value {
+        color: var(--color-accent);
+      }
+    }
+  }
+
+  .card-icon {
+    width: 54px;
+    height: 54px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .card-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    h3 {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .card-value {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1.2;
+    }
+  }
+}
+
+.live-status-section {
+  margin-top: 10px;
+}
+
+.status-details-panel {
+  padding: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(14, 165, 233, 0.05) 100%);
+  border: 1px solid rgba(99, 102, 241, 0.1);
+
+  .panel-info {
+    h2 {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 8px;
+    }
+
+    .info-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+
+      .meta-divider {
+        opacity: 0.3;
+      }
+    }
+  }
+
+  .track-btn {
+    background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-primary) 100%);
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.15);
+
+    &:hover {
+      background: linear-gradient(135deg, #059669 0%, var(--color-primary-hover) 100%);
+      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.25);
+    }
+  }
+}
+
+.empty-assigned-panel {
+  padding: 50px 30px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  color: var(--text-muted);
+  font-weight: 500;
+
+  .empty-icon {
+    color: var(--text-muted);
+    opacity: 0.6;
+  }
+}

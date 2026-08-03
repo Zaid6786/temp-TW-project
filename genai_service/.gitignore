@@ -1,0 +1,27 @@
+# Virtual environment
+.venv/
+
+# Environment variables
+.env
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Test cache
+.pytest_cache/
+cd C:\Projects\Teamproject-collegebus\src\main\java\com\example\demo
+
+mkdir client
+
+New-Item client\FastApiChatClient.java -ItemType File
+# VS Code settings
+.vscode/
+
+# Logs
+*.log
+
+# Operating system files
+.DS_Store
+Thumbs.db

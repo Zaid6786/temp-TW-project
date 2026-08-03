@@ -1,0 +1,38 @@
+<div class="page-header" style="margin-bottom: 25px;">
+  <h1 style="color: var(--color-primary); font-size: 1.8rem; margin-bottom: 5px;">My Travel History</h1>
+  <p style="color: var(--text-muted);">View your recent bus trips and routes.</p>
+</div>
+
+<div class="glass-panel" style="padding: 25px;">
+  <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+    <select class="input-field" style="width: 200px;" (change)="onFilterChange($event)">
+      <option value="7">Past 7 Days</option>
+      <option value="30">Past 30 Days</option>
+      <option value="0">All Time</option>
+    </select>
+  </div>
+
+  <table style="width: 100%; border-collapse: collapse; text-align: left;">
+    <thead>
+      <tr style="border-bottom: 2px solid var(--border-color); color: var(--text-muted);">
+        <th style="padding: 12px 10px;">Date & Time</th>
+        <th style="padding: 12px 10px;">Bus ID</th>
+        <th style="padding: 12px 10px;">Type</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngIf="filteredHistory.length === 0">
+        <td colspan="3" style="padding: 20px; text-align: center; color: var(--text-muted);">No history records found for the selected period.</td>
+      </tr>
+      <tr *ngFor="let item of filteredHistory" style="border-bottom: 1px solid var(--border-color);">
+        <td style="padding: 15px 10px; font-weight: 500;">{{ item.date | date:'medium' }}</td>
+        <td style="padding: 15px 10px;">Bus #{{ item.busId }}</td>
+        <td style="padding: 15px 10px;">
+          <span [ngStyle]="{
+            'color': item.type === 'CHECK_IN' ? 'var(--color-accent)' : 'var(--color-warning)'
+          }" style="font-weight: 600;">{{ item.type }}</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

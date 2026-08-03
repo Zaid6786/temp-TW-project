@@ -1,0 +1,112 @@
+<div class="dashboard-wrapper">
+  <div class="dashboard-header">
+    <h1 class="welcome-title">Dashboard Overview</h1>
+    <p class="welcome-subtitle">Real-time telemetry and management insights for your fleet.</p>
+  </div>
+
+  <div class="stats-grid">
+    <div class="glass-panel stat-card buses-card">
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-1.1 0-2 .9-2 2v7h2"></path>
+          <circle cx="7" cy="17" r="2"></circle>
+          <path d="M9 17h6"></path>
+          <circle cx="17" cy="17" r="2"></circle>
+        </svg>
+      </div>
+      <div class="card-content">
+        <h3>Total Buses</h3>
+        <div class="card-value">{{ stats.totalBuses }}</div>
+      </div>
+    </div>
+
+    <div class="glass-panel stat-card routes-card">
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+        </svg>
+      </div>
+      <div class="card-content">
+        <h3>Active Routes</h3>
+        <div class="card-value">{{ stats.activeRoutes }}</div>
+      </div>
+    </div>
+
+    <div class="glass-panel stat-card drivers-card">
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+          <circle cx="9" cy="7" r="4"></circle>
+        </svg>
+      </div>
+      <div class="card-content">
+        <h3>Drivers on Duty</h3>
+        <div class="card-value">{{ stats.activeDrivers }}</div>
+      </div>
+    </div>
+
+    <div class="glass-panel stat-card complaints-card" [class.unresolved]="stats.unresolvedComplaints > 0">
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+          <line x1="12" y1="9" x2="12" y2="13"></line>
+          <line x1="12" y1="17" x2="12.01" y2="17"></line>
+        </svg>
+      </div>
+      <div class="card-content">
+        <h3>Unresolved Complaints</h3>
+        <div class="card-value">{{ stats.unresolvedComplaints }}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="quick-actions-section">
+    <h2 class="section-title">Quick Actions</h2>
+    <div class="actions-row">
+      <button class="btn-primary" routerLink="/admin/live-map">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5">
+          <polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"></polygon>
+        </svg>
+        <span>View Live Map</span>
+      </button>
+      <button class="btn-secondary" routerLink="/admin/complaints">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+        </svg>
+        <span>Review Complaints</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="recent-activity-section">
+    <h2 class="section-title">Recent System Activity</h2>
+    <div class="glass-panel table-wrapper">
+      <table class="activity-table">
+        <thead>
+          <tr>
+            <th>Time</th>
+            <th>Event</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="time-cell">10:24 AM</td>
+            <td>Bus 4 started Route A</td>
+            <td><span class="badge active-badge">Active</span></td>
+          </tr>
+          <tr>
+            <td class="time-cell">09:15 AM</td>
+            <td>New complaint from Student #804</td>
+            <td><span class="badge pending-badge">Pending</span></td>
+          </tr>
+          <tr>
+            <td class="time-cell">08:30 AM</td>
+            <td>Driver 'John Doe' logged in</td>
+            <td><span class="badge info-badge">Info</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

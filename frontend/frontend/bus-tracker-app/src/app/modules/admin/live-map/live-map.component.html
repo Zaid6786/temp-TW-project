@@ -1,0 +1,57 @@
+<div class="map-wrapper">
+  <div class="map-header">
+    <div>
+      <h1 class="page-title">Live Fleet Map</h1>
+      <p class="page-subtitle">Real-time status tracking of all active buses.</p>
+    </div>
+    <div class="header-actions">
+      <button class="btn-primary refresh-btn" (click)="loadBuses()">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path>
+        </svg>
+        <span>Force Refresh</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="map-frame-container">
+    <!-- Map Canvas -->
+    <div id="mapbox-container" class="glass-panel main-map"></div>
+
+    <!-- Active Fleet Status Summary -->
+    <div class="glass-panel status-panel">
+      <div class="panel-header">
+        <svg class="panel-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="9" y1="3" x2="9" y2="21"></line>
+        </svg>
+        <h3>Active Fleet</h3>
+      </div>
+      
+      <div class="panel-body">
+        <div *ngIf="buses.length === 0" class="no-buses">
+          <p>No active buses found in the database.</p>
+        </div>
+        
+        <div class="fleet-list">
+          <div *ngFor="let bus of buses" class="fleet-item">
+            <div class="item-meta">
+              <span class="bus-badge">Bus #{{ bus.busId }}</span>
+              <span class="route-badge">{{ bus.routeCode || 'Route Code N/A' }}</span>
+            </div>
+            <div class="item-coords">
+              <span class="coord">Lat: {{ bus.currentLat ? bus.currentLat.toFixed(4) : 'N/A' }}</span>
+              <span class="coord">Lng: {{ bus.currentLng ? bus.currentLng.toFixed(4) : 'N/A' }}</span>
+            </div>
+            <div class="item-status">
+              <span class="speed">{{ bus.speed ? bus.speed.toFixed(1) : '0.0' }} km/h</span>
+              <span class="status-indicator-label" [class.active]="bus.status === 'ACTIVE'">
+                {{ bus.status }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

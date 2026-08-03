@@ -1,0 +1,54 @@
+<div class="page-header" style="margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center;">
+  <div>
+    <h1 style="color: var(--color-primary); font-size: 1.8rem; margin-bottom: 5px;">Bus #4 Details</h1>
+    <p style="color: var(--text-muted);">Route A - Downtown Loop</p>
+  </div>
+  <button class="btn-primary" routerLink="/student/buses" style="background: transparent; color: var(--color-primary); border: 1px solid var(--color-primary); box-shadow: none;">&larr; Back to List</button>
+</div>
+
+<div style="display: grid; grid-template-columns: 2fr 1fr; gap: 30px;">
+  <div class="glass-panel" style="padding: 25px;">
+    <h2 style="font-size: 1.4rem; color: var(--text-main); margin-bottom: 20px;">Route Information</h2>
+    
+    <div style="position: relative; margin-left: 20px; border-left: 2px solid var(--color-primary); padding-left: 30px; margin-bottom: 30px;">
+      
+      <div style="position: relative; margin-bottom: 30px;">
+        <div style="position: absolute; left: -39px; top: 0; width: 16px; height: 16px; border-radius: 50%; background: var(--color-primary); border: 3px solid white;"></div>
+        <h4 style="color: var(--text-main); margin-bottom: 5px;">North Campus Station</h4>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">Departure: 08:00 AM</p>
+      </div>
+
+      <div style="position: relative; margin-bottom: 30px;">
+        <div style="position: absolute; left: -39px; top: 0; width: 16px; height: 16px; border-radius: 50%; background: var(--color-accent); border: 3px solid white; box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);"></div>
+        <h4 style="color: var(--text-main); margin-bottom: 5px;">Library Stop (Current)</h4>
+        <p style="color: var(--color-accent); font-size: 0.9rem; font-weight: 500;">ETA: Arriving Now</p>
+      </div>
+
+      <div style="position: relative;">
+        <div style="position: absolute; left: -39px; top: 0; width: 16px; height: 16px; border-radius: 50%; background: var(--border-color); border: 3px solid white;"></div>
+        <h4 style="color: var(--text-main); margin-bottom: 5px;">Downtown Terminus</h4>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">Scheduled: 08:45 AM</p>
+      </div>
+      
+    </div>
+  </div>
+
+  <div style="display: flex; flex-direction: column; gap: 20px;">
+    <div class="glass-panel" style="padding: 25px;">
+      <h3 style="font-size: 1.1rem; color: var(--text-main); margin-bottom: 15px;">Live Status</h3>
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
+        <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: var(--color-accent);"></span>
+        <span style="font-weight: 500; color: var(--text-main);">On Time</span>
+      </div>
+      <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px;">The bus is running exactly on schedule.</p>
+      <button class="btn-primary" style="width: 100%;" routerLink="/student/live-map">View on Map</button>
+    </div>
+
+    <div class="glass-panel" style="padding: 25px;">
+      <h3 style="font-size: 1.1rem; color: var(--text-main); margin-bottom: 15px;">Bus Info</h3>
+      <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 10px;"><strong>License Plate:</strong> XYZ-1234</p>
+      <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 10px;"><strong>Driver:</strong> John Doe</p>
+      <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 10px;"><strong>Capacity:</strong> 35 / 50 Seats</p>
+    </div>
+  </div>
+</div>
