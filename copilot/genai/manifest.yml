@@ -1,0 +1,16 @@
+name: genai
+type: Backend Service
+
+image:
+  build: ./genai_service/Dockerfile
+  port: 8000
+
+cpu: 256
+memory: 512
+count: 1
+exec: true
+
+variables:
+  SPRING_BOOT_BASE_URL: http://backend.bus-tracker.local:8080
+secrets:
+  GROQ_API_KEY: /copilot/${COPILOT_APPLICATION_NAME}/${COPILOT_ENVIRONMENT_NAME}/secrets/GROQ_API_KEY
